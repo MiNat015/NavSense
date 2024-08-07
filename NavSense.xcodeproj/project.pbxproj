@@ -14,6 +14,7 @@
 		3BE86EE52C63878F002CFE82 /* NavSenseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE86EE42C63878F002CFE82 /* NavSenseTests.swift */; };
 		3BE86EEF2C63878F002CFE82 /* NavSenseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE86EEE2C63878F002CFE82 /* NavSenseUITests.swift */; };
 		3BE86EF12C63878F002CFE82 /* NavSenseUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE86EF02C63878F002CFE82 /* NavSenseUITestsLaunchTests.swift */; };
+		3BE86F022C638A7A002CFE82 /* CustomARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE86F012C638A7A002CFE82 /* CustomARView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		3BE86EEA2C63878F002CFE82 /* NavSenseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NavSenseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BE86EEE2C63878F002CFE82 /* NavSenseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavSenseUITests.swift; sourceTree = "<group>"; };
 		3BE86EF02C63878F002CFE82 /* NavSenseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavSenseUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		3BE86F012C638A7A002CFE82 /* CustomARView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomARView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,8 +96,8 @@
 		3BE86ED22C63878C002CFE82 /* NavSense */ = {
 			isa = PBXGroup;
 			children = (
+				3BE86F002C638A6C002CFE82 /* Feature Targets */,
 				3BE86ED32C63878C002CFE82 /* NavSenseApp.swift */,
-				3BE86ED52C63878C002CFE82 /* ContentView.swift */,
 				3BE86ED72C63878F002CFE82 /* Assets.xcassets */,
 				3BE86ED92C63878F002CFE82 /* Preview Content */,
 			);
@@ -125,6 +127,15 @@
 				3BE86EF02C63878F002CFE82 /* NavSenseUITestsLaunchTests.swift */,
 			);
 			path = NavSenseUITests;
+			sourceTree = "<group>";
+		};
+		3BE86F002C638A6C002CFE82 /* Feature Targets */ = {
+			isa = PBXGroup;
+			children = (
+				3BE86F012C638A7A002CFE82 /* CustomARView.swift */,
+				3BE86ED52C63878C002CFE82 /* ContentView.swift */,
+			);
+			path = "Feature Targets";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BE86ED62C63878C002CFE82 /* ContentView.swift in Sources */,
+				3BE86F022C638A7A002CFE82 /* CustomARView.swift in Sources */,
 				3BE86ED42C63878C002CFE82 /* NavSenseApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
