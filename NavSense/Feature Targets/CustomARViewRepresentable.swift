@@ -16,7 +16,9 @@ struct CustomARViewRepresentable: UIViewRepresentable {
         // Start AR session
         let session = view.session
         let config = ARWorldTrackingConfiguration()
-        config.planeDetection = [.horizontal]
+        // Enable mesh construction and classification
+        config.sceneReconstruction = .meshWithClassification
+        config.planeDetection = [.horizontal, .vertical]
         session.run(config)
         
         // Add coaching overlay (optional)
@@ -28,7 +30,11 @@ struct CustomARViewRepresentable: UIViewRepresentable {
         
         // Set debug options
         #if DEBUG
-        view.debugOptions = [.showFeaturePoints, .showAnchorOrigins, .showAnchorGeometry]
+        /* Uncomment to view planes and anchor points */
+        // view.debugOptions = [.showFeaturePoints, .showAnchorOrigins, .showAnchorGeometry]
+        
+        /* Uncomment to view meshes */
+        view.debugOptions = [.showSceneUnderstanding]
         #endif
         
         return view
