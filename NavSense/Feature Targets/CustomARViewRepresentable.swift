@@ -18,9 +18,13 @@ struct CustomARViewRepresentable: UIViewRepresentable {
         let config = ARWorldTrackingConfiguration()
         // Enable mesh construction and classification
         config.sceneReconstruction = .meshWithClassification
+        // Smooth depth data measures distance in a more stable manner
+        config.frameSemantics = .smoothedSceneDepth
         config.planeDetection = [.horizontal, .vertical]
         session.run(config)
         
+        print("AR session started")
+
         // Add coaching overlay (optional)
         let coachingOverlay = ARCoachingOverlayView()
         coachingOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
