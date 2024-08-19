@@ -10,8 +10,15 @@ import RealityKit
 import ARKit
 
 struct CustomARViewRepresentable: UIViewRepresentable {
+    @Binding var depthPoint: CGPoint?
+    
     func makeUIView(context: Context) -> some UIView {
         let view = CustomARView() // Uses convenience initialiser of class
+        view.onDepthPointUpdate = { point in
+            DispatchQueue.main.async {
+                self.depthPoint = point
+            }
+        }
         
         // Start AR session
         let session = view.session
@@ -45,5 +52,17 @@ struct CustomARViewRepresentable: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIViewType, context: Context) {}
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+        
+    class Coordinator: NSObject {
+        var representable: CustomARViewRepresentable
+            
+        init(_ representable: CustomARViewRepresentable) {
+            self.representable = representable
+        }
+    }
 }
 

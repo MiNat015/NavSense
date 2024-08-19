@@ -11,6 +11,8 @@ import RealityKit
 import SwiftUI
 
 class CustomARView: ARView, ARSessionDelegate {
+    var onDepthPointUpdate: ((CGPoint?) -> Void)?
+    
     required init(frame frameRect: CGRect) {
         super.init(frame: frameRect)
         self.session.delegate = self
@@ -61,5 +63,13 @@ class CustomARView: ARView, ARSessionDelegate {
                             
         let distanceInMeters = Double(depthValue)
         print("Distance to center point: \(distanceInMeters) meters")
+        
+        // Convert to screen coordinates
+        let depthPoint = CGPoint(x: CGFloat(centerX) / CGFloat(width) * bounds.width,
+                                y: CGFloat(centerY) / CGFloat(height) * bounds.height)
+        
+        DispatchQueue.main.async {
+            self.onDepthPointUpdate?(depthPoint)
+        }
     }
 }
