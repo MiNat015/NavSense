@@ -11,7 +11,7 @@ import RealityKit
 import SwiftUI
 
 class CustomARView: ARView, ARSessionDelegate {
-    var onDepthPointUpdate: ((CGPoint?) -> Void)?
+    var onDepthPointsUpdate: (([CGPoint?]) -> Void)?
     
     required init(frame frameRect: CGRect) {
         super.init(frame: frameRect)
@@ -55,21 +55,34 @@ class CustomARView: ARView, ARSessionDelegate {
                             
         let centerX = width / 2
         let centerY = height / 2
+        let leftX = centerX / 4
+        let rightX = centerX + (centerX / 2) + leftX
 
         let bytesPerRow = CVPixelBufferGetBytesPerRow(pixelBuffer)
-        let pixelIndex = Int(centerY) * bytesPerRow / MemoryLayout<Float32>.stride + Int(centerX)
-                            
-        let depthValue = baseAddress[pixelIndex]
-                            
-        let distanceInMeters = Double(depthValue)
-        print("Distance to center point: \(distanceInMeters) meters")
         
+        let centerPixelIndex = Int(centerY) * bytesPerRow / MemoryLayout<Float32>.stride + Int(centerX)
+        let leftPixelIndex = Int(centerY) * bytesPerRow / MemoryLayout<Float32>.stride + Int(leftX)
+        let rightPixelIndex = Int(centerY) * bytesPerRow / MemoryLayout<Float32>.stride + Int(rightX)
+
+        let centerDepthValue = baseAddress[centerPixelIndex]
+        let leftDepthValue = baseAddress[leftPixelIndex]
+        let rightDepthValue = baseAddress[rightPixelIndex]
+        
+        let centerDistanceInMeters = Double(centerDepthValue)
+        let leftDistanceInMeters = Double(leftDepthValue)
+        let rightDistanceInMeters = Double(rightDepthValue)
+        print("Distance to center point: \(centerDistanceInMeters) meters")
+        print("Distance to left point: \(leftDistanceInMeters) meters")
+        print("Distance to right point: \(rightDistanceInMeters) meters")
+
         // Convert to screen coordinates
-        let depthPoint = CGPoint(x: CGFloat(centerX) / CGFloat(width) * bounds.width,
-                                y: CGFloat(centerY) / CGFloat(height) * bounds.height)
-        
+        let centerPoint = CGPoint(x: CGFloat(centerX) / CGFloat(width) * bounds.width, y: CGFloat(centerY) / CGFloat(height) * bounds.height)
+        let leftPoint = CGPoint(x: CGFloat(leftX) / CGFloat(width) * bounds.width, y: CGFloat(centerY) / CGFloat(height) * bounds.height)
+        let rightPoint = CGPoint(x: CGFloat(rightX) / CGFloat(width) * bounds.width, y: CGFloat(centerY) / CGFloat(height) * bounds.height)
+
+        // Pass the points to the SwiftUI view
         DispatchQueue.main.async {
-            self.onDepthPointUpdate?(depthPoint)
+            self.onDepthPointsUpdate?([centerPoint, leftPoint, rightPoint])
         }
     }
 }

@@ -10,13 +10,13 @@ import RealityKit
 import ARKit
 
 struct CustomARViewRepresentable: UIViewRepresentable {
-    @Binding var depthPoint: CGPoint?
+    @Binding var depthPoints: [CGPoint?]
     
     func makeUIView(context: Context) -> some UIView {
         let view = CustomARView() // Uses convenience initialiser of class
-        view.onDepthPointUpdate = { point in
+        view.onDepthPointsUpdate = { points in
             DispatchQueue.main.async {
-                self.depthPoint = point
+                self.depthPoints = points
             }
         }
         

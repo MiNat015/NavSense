@@ -8,18 +8,20 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var depthPoint: CGPoint? = nil
+    @State private var depthPoints: [CGPoint?] = [nil, nil, nil]
     
     var body: some View {
         ZStack {
-            CustomARViewRepresentable(depthPoint: $depthPoint)
+            CustomARViewRepresentable(depthPoints: $depthPoints)
                 .ignoresSafeArea()
                     
-            if let point = depthPoint {
-                Circle()
-                    .fill(Color.red)
-                    .frame(width: 10, height: 10)
-                    .position(point)
+            ForEach(depthPoints.indices, id: \.self) { index in
+                if let point = depthPoints[index] {
+                    Circle()
+                        .fill(Color.red)
+                        .frame(width: 10, height: 10)
+                        .position(point)
+                    }
                 }
         }
     }
