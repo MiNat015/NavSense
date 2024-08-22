@@ -9,10 +9,12 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var depthPoints: [CGPoint?] = [nil, nil, nil]
+    @StateObject private var audioManager = AudioManager()
+
     
     var body: some View {
         ZStack {
-            CustomARViewRepresentable(depthPoints: $depthPoints)
+            CustomARViewRepresentable(depthPoints: $depthPoints, audioManager: audioManager)
                 .ignoresSafeArea()
                     
             ForEach(depthPoints.indices, id: \.self) { index in

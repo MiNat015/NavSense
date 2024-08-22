@@ -12,19 +12,29 @@ import SwiftUI
 
 class CustomARView: ARView, ARSessionDelegate {
     var onDepthPointsUpdate: (([CGPoint?]) -> Void)?
+    var audioManager: AudioManager
+    var lastRange: DistanceRange?
     
     required init(frame frameRect: CGRect) {
+        self.audioManager = AudioManager()
         super.init(frame: frameRect)
         self.session.delegate = self
         print("CustomARView initialized")
     }
     
+    required init(frame frameRect: CGRect, audioManager: AudioManager) {
+        self.audioManager = audioManager
+        super.init(frame: frameRect)
+        self.session.delegate = self
+        print("CustomARView initialized")
+    }
+
     dynamic required init?(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init() {
-        self.init(frame: UIScreen.main.bounds)
+    convenience init(audioManager: AudioManager) {
+        self.init(frame: UIScreen.main.bounds, audioManager: audioManager)
     }
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
@@ -74,6 +84,31 @@ class CustomARView: ARView, ARSessionDelegate {
         print("Distance to center point: \(centerDistanceInMeters) meters")
         print("Distance to left point: \(leftDistanceInMeters) meters")
         print("Distance to right point: \(rightDistanceInMeters) meters")
+        
+        // Determine the distance range
+        let minDistanceInMeters = min(min(centerDistanceInMeters, leftDistanceInMeters), rightDistanceInMeters)
+        var currentRange: DistanceRange?
+        
+        if minDistanceInMeters < 0.1 {
+            currentRange = .lessThan0_1Meters
+        } else if minDistanceInMeters < 0.5 {
+            currentRange = .lessThan0_5Meters
+        } else if minDistanceInMeters < 1.5 {
+            currentRange = .between1And1_5Meters
+        } else if minDistanceInMeters < 2.0 {
+            currentRange = .between1_5And2Meters
+        }
+
+        // Only update and play sound if the range has changed
+        if currentRange != lastRange {
+            lastRange = currentRange
+            if let range = currentRange {
+                audioManager.playSoundForDistanceRange(range)
+            } else {
+                audioManager.stopAllSounds()
+            }
+        }
+
 
         // Convert to screen coordinates
         let centerPoint = CGPoint(x: CGFloat(centerX) / CGFloat(width) * bounds.width, y: CGFloat(centerY) / CGFloat(height) * bounds.height)

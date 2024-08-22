@@ -11,9 +11,10 @@ import ARKit
 
 struct CustomARViewRepresentable: UIViewRepresentable {
     @Binding var depthPoints: [CGPoint?]
+    @ObservedObject var audioManager: AudioManager
     
     func makeUIView(context: Context) -> some UIView {
-        let view = CustomARView() // Uses convenience initialiser of class
+        let view = CustomARView(audioManager: audioManager) // Uses convenience initialiser of class
         view.onDepthPointsUpdate = { points in
             DispatchQueue.main.async {
                 self.depthPoints = points
