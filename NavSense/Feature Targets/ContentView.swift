@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var depthPoints: [CGPoint?] = [nil, nil, nil]
+    @State private var depthPoints: [CGPoint?] = [nil, nil, nil] // Store all depth points
     @StateObject private var audioManager = AudioManager()
 
     
@@ -17,6 +17,7 @@ struct ContentView: View {
             CustomARViewRepresentable(depthPoints: $depthPoints, audioManager: audioManager)
                 .ignoresSafeArea()
                     
+            // Iterate over the depth points and draw it on the screen
             ForEach(depthPoints.indices, id: \.self) { index in
                 if let point = depthPoints[index] {
                     Circle()

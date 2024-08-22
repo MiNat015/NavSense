@@ -8,6 +8,9 @@
 import AVFoundation
 import SwiftUI
 
+/*
+ * The AudioManager class stores and manages all audio feedback clips
+ */
 class AudioManager: ObservableObject {
     private var playerForLessThan0_1Meters: AVAudioPlayer?
     private var playerForLessThan0_5Meters: AVAudioPlayer?
@@ -19,22 +22,18 @@ class AudioManager: ObservableObject {
     }
     
     private func setupAudioPlayers() {
+        // Define audio clips
         guard let sound1 = Bundle.main.url(forResource: "two_steps_ahead", withExtension: "mp3"),
               let sound2 = Bundle.main.url(forResource: "one_step", withExtension: "mp3"),
               let sound3 = Bundle.main.url(forResource: "immediately_in_front", withExtension: "mp3"),
-              let sound4 = Bundle.main.url(forResource: "damfool", withExtension: "mp3"),
-              let sound5 = Bundle.main.url(forResource: "right_two_step", withExtension: "mp3"),
-              let sound6 = Bundle.main.url(forResource: "right_one_step", withExtension: "mp3"),
-              let sound7 = Bundle.main.url(forResource: "right_immediate", withExtension: "mp3"),
-              let sound8 = Bundle.main.url(forResource: "left_two_step", withExtension: "mp3"),
-              let sound9 = Bundle.main.url(forResource: "left_one_step", withExtension: "mp3"),
-              let sound10 = Bundle.main.url(forResource: "left_immediate", withExtension: "mp3")
+              let sound4 = Bundle.main.url(forResource: "damfool", withExtension: "mp3")
         else {
             print("Error: Could not find one or more audio files.")
             return
         }
         
         do {
+            // Group each clip to a given distance range
             playerForLessThan0_1Meters = try AVAudioPlayer(contentsOf: sound4)
             playerForLessThan0_5Meters = try AVAudioPlayer(contentsOf: sound3)
             playerFor1To1_5Meters = try AVAudioPlayer(contentsOf: sound2)
@@ -52,6 +51,7 @@ class AudioManager: ObservableObject {
     func playSoundForDistanceRange(_ range: DistanceRange) {
         stopAllSounds()  // Stop all sounds before playing the correct one
         
+        // Play clip according to range
         switch range {
         case .lessThan0_1Meters:
             playerForLessThan0_1Meters?.play()
@@ -65,6 +65,7 @@ class AudioManager: ObservableObject {
     }
     
     func stopAllSounds() {
+        // Stop all clips
         playerForLessThan0_1Meters?.stop()
         playerForLessThan0_5Meters?.stop()
         playerFor1To1_5Meters?.stop()
@@ -78,6 +79,7 @@ class AudioManager: ObservableObject {
     }
 }
 
+// Enum to classify distance ranges
 enum DistanceRange {
     case lessThan0_1Meters
     case lessThan0_5Meters
