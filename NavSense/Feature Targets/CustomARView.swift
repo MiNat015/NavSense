@@ -14,6 +14,9 @@ class CustomARView: ARView, ARSessionDelegate {
     var onDepthPointsUpdate: (([CGPoint?]) -> Void)?
     var audioManager: AudioManager
     var lastRange: DistanceRange?
+    var lastDistance : Double = 0.0
+    private var lastUpdateTime: TimeInterval = 0
+    private let updateInterval: TimeInterval = 0.1
     
     required init(frame frameRect: CGRect) {
         self.audioManager = AudioManager()
@@ -38,55 +41,58 @@ class CustomARView: ARView, ARSessionDelegate {
     }
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        print("AR session did update")
+        let currentTime = frame.timestamp
+        guard abs(currentTime - lastUpdateTime) >= updateInterval else { return }
+        lastUpdateTime = currentTime
+                
         testDepthData(session, didUpdate: frame)
     }
     
     func testDepthData(_ session: ARSession, didUpdate frame: ARFrame) {
         guard let sceneDepth = frame.smoothedSceneDepth ?? frame.sceneDepth else {
-                print("Failed to acquire scene depth.")
-                return
+            print("Failed to acquire scene depth.")
+            return
         }
-            
+        
         let pixelBuffer = sceneDepth.depthMap
         
         CVPixelBufferLockBaseAddress(pixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
         defer {
             CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
         }
-            
+        
         guard let baseAddress = CVPixelBufferGetBaseAddress(pixelBuffer)?.assumingMemoryBound(to: Float32.self) else {
-                print("Base address is not valid.")
-                return
-            }
-
+            print("Base address is not valid.")
+            return
+        }
+        
         let width = CVPixelBufferGetWidth(pixelBuffer)
         let height = CVPixelBufferGetHeight(pixelBuffer)
-                            
+        
         let centerX = width / 2
         let centerY = height / 2
         let leftX = centerX / 4
         let rightX = centerX + (centerX / 2) + leftX
-
+        
         let bytesPerRow = CVPixelBufferGetBytesPerRow(pixelBuffer)
         
         let centerPixelIndex = Int(centerY) * bytesPerRow / MemoryLayout<Float32>.stride + Int(centerX)
         let leftPixelIndex = Int(centerY) * bytesPerRow / MemoryLayout<Float32>.stride + Int(leftX)
         let rightPixelIndex = Int(centerY) * bytesPerRow / MemoryLayout<Float32>.stride + Int(rightX)
-
+        
         let centerDepthValue = baseAddress[centerPixelIndex]
         let leftDepthValue = baseAddress[leftPixelIndex]
         let rightDepthValue = baseAddress[rightPixelIndex]
         
-        let centerDistanceInMeters = Double(centerDepthValue)
-        let leftDistanceInMeters = Double(leftDepthValue)
-        let rightDistanceInMeters = Double(rightDepthValue)
+        let centerDistanceInMeters = Double(centerDepthValue).rounded(toPlaces: 2)
+        let leftDistanceInMeters = Double(leftDepthValue).rounded(toPlaces: 2)
+        let rightDistanceInMeters = Double(rightDepthValue).rounded(toPlaces: 2)
         print("Distance to center point: \(centerDistanceInMeters) meters")
         print("Distance to left point: \(leftDistanceInMeters) meters")
         print("Distance to right point: \(rightDistanceInMeters) meters")
         
         // Determine the distance range
-        let minDistanceInMeters = min(min(centerDistanceInMeters, leftDistanceInMeters), rightDistanceInMeters)
+        let minDistanceInMeters = min(centerDistanceInMeters, min(leftDistanceInMeters, rightDistanceInMeters))
         var currentRange: DistanceRange?
         
         if minDistanceInMeters < 0.1 {
@@ -97,11 +103,12 @@ class CustomARView: ARView, ARSessionDelegate {
             currentRange = .between1And1_5Meters
         } else if minDistanceInMeters < 2.0 {
             currentRange = .between1_5And2Meters
-        }
-
+        } 
+        
         // Only update and play sound if the range has changed
-        if currentRange != lastRange {
+        if (abs(minDistanceInMeters - lastDistance) >= 0.25) || (currentRange != lastRange) {
             lastRange = currentRange
+            lastDistance = minDistanceInMeters
             if let range = currentRange {
                 audioManager.playSoundForDistanceRange(range)
             } else {
@@ -119,5 +126,12 @@ class CustomARView: ARView, ARSessionDelegate {
         DispatchQueue.main.async {
             self.onDepthPointsUpdate?([centerPoint, leftPoint, rightPoint])
         }
+    }
+}
+
+extension Double {
+    func rounded(toPlaces places: Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
     }
 }

@@ -16,9 +16,10 @@ class AudioManager: ObservableObject {
     private var playerForLessThan0_5Meters: AVAudioPlayer?
     private var playerFor1To1_5Meters: AVAudioPlayer?
     private var playerFor1_5To2Meters: AVAudioPlayer?
-    
+
     init() {
         setupAudioPlayers()
+        setupAudioSession()
     }
     
     private func setupAudioPlayers() {
@@ -26,7 +27,7 @@ class AudioManager: ObservableObject {
         guard let sound1 = Bundle.main.url(forResource: "two_steps_ahead", withExtension: "mp3"),
               let sound2 = Bundle.main.url(forResource: "one_step", withExtension: "mp3"),
               let sound3 = Bundle.main.url(forResource: "immediately_in_front", withExtension: "mp3"),
-              let sound4 = Bundle.main.url(forResource: "damfool", withExtension: "mp3")
+              let sound4 = Bundle.main.url(forResource: "crash", withExtension: "mp3")
         else {
             print("Error: Could not find one or more audio files.")
             return
@@ -62,6 +63,15 @@ class AudioManager: ObservableObject {
         case .between1_5And2Meters:
             playerFor1_5To2Meters?.play()
         }
+    }
+    
+    private func setupAudioSession() {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
+                try AVAudioSession.sharedInstance().setActive(true)
+            } catch {
+                print("Error: Could not set up the audio session. \(error.localizedDescription)")
+            }
     }
     
     func stopAllSounds() {
