@@ -49,6 +49,7 @@ class CustomARView: ARView, ARSessionDelegate {
     }
     
     func testDepthData(_ session: ARSession, didUpdate frame: ARFrame) {
+        // Check if ARKit has acquired the mesh
         guard let sceneDepth = frame.smoothedSceneDepth ?? frame.sceneDepth else {
             print("Failed to acquire scene depth.")
             return
@@ -61,6 +62,7 @@ class CustomARView: ARView, ARSessionDelegate {
             CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
         }
         
+        // Check for valid pixel base address
         guard let baseAddress = CVPixelBufferGetBaseAddress(pixelBuffer)?.assumingMemoryBound(to: Float32.self) else {
             print("Base address is not valid.")
             return
@@ -71,44 +73,49 @@ class CustomARView: ARView, ARSessionDelegate {
         
         let centerX = width / 2
         let centerY = height / 2
-        let leftX = centerX / 4
-        let rightX = centerX + (centerX / 2) + leftX
+        let topY = centerY / 4
+        let bottomY = centerY + (centerY / 2) //+ bottomY
         
         let bytesPerRow = CVPixelBufferGetBytesPerRow(pixelBuffer)
+
+        let points : [Point]  = [
+            Point(x: centerX, y: centerY, row: ScreenRow.MiddleRow), Point(x: centerX, y: bottomY, row: ScreenRow.BottomRow), Point(x: centerX, y: topY, row: ScreenRow.TopRow)
+        ]
         
-        let centerPixelIndex = Int(centerY) * bytesPerRow / MemoryLayout<Float32>.stride + Int(centerX)
-        let leftPixelIndex = Int(centerY) * bytesPerRow / MemoryLayout<Float32>.stride + Int(leftX)
-        let rightPixelIndex = Int(centerY) * bytesPerRow / MemoryLayout<Float32>.stride + Int(rightX)
+        var minDistance = Double.infinity
+        var minPoint : Point
         
-        let centerDepthValue = baseAddress[centerPixelIndex]
-        let leftDepthValue = baseAddress[leftPixelIndex]
-        let rightDepthValue = baseAddress[rightPixelIndex]
+        for point in points {
+            let idx = Int(point.y) * bytesPerRow / MemoryLayout<Float32>.stride + Int(point.x)
+            let depthValue = baseAddress[idx]
+            let distanceInMeters = Double(depthValue).rounded(toPlaces: 2)
+            point.setPixelIndex(index: idx)
+            point.setDistance(distance: distanceInMeters)
+            
+            if distanceInMeters < minDistance {
+                minDistance = distanceInMeters
+                minPoint = point
+            }
+            
+            print(point)
+        }
         
-        let centerDistanceInMeters = Double(centerDepthValue).rounded(toPlaces: 2)
-        let leftDistanceInMeters = Double(leftDepthValue).rounded(toPlaces: 2)
-        let rightDistanceInMeters = Double(rightDepthValue).rounded(toPlaces: 2)
-        print("Distance to center point: \(centerDistanceInMeters) meters")
-        print("Distance to left point: \(leftDistanceInMeters) meters")
-        print("Distance to right point: \(rightDistanceInMeters) meters")
-        
-        // Determine the distance range
-        let minDistanceInMeters = min(centerDistanceInMeters, min(leftDistanceInMeters, rightDistanceInMeters))
         var currentRange: DistanceRange?
         
-        if minDistanceInMeters < 0.1 {
+        if minDistance < 0.1 {
             currentRange = .lessThan0_1Meters
-        } else if minDistanceInMeters < 0.5 {
+        } else if minDistance < 0.5 {
             currentRange = .lessThan0_5Meters
-        } else if minDistanceInMeters < 1.5 {
+        } else if minDistance < 1.5 {
             currentRange = .between1And1_5Meters
-        } else if minDistanceInMeters < 2.0 {
+        } else if minDistance < 2.0 {
             currentRange = .between1_5And2Meters
-        } 
+        }
         
         // Only update and play sound if the range has changed
-        if (abs(minDistanceInMeters - lastDistance) >= 0.25) || (currentRange != lastRange) {
+        if (abs(minDistance - lastDistance) >= 0.25) || (currentRange != lastRange) {
             lastRange = currentRange
-            lastDistance = minDistanceInMeters
+            lastDistance = minDistance
             if let range = currentRange {
                 audioManager.playSoundForDistanceRange(range)
             } else {
@@ -116,17 +123,64 @@ class CustomARView: ARView, ARSessionDelegate {
             }
         }
 
-
         // Convert to screen coordinates
-        let centerPoint = CGPoint(x: CGFloat(centerX) / CGFloat(width) * bounds.width, y: CGFloat(centerY) / CGFloat(height) * bounds.height)
-        let leftPoint = CGPoint(x: CGFloat(leftX) / CGFloat(width) * bounds.width, y: CGFloat(centerY) / CGFloat(height) * bounds.height)
-        let rightPoint = CGPoint(x: CGFloat(rightX) / CGFloat(width) * bounds.width, y: CGFloat(centerY) / CGFloat(height) * bounds.height)
-
+        var cgPoints: [CGPoint] = []
+        for point in points {
+            cgPoints.append(CGPoint(x: CGFloat(point.x) / CGFloat(width) * bounds.width, y: CGFloat(point.y) / CGFloat(height) * bounds.height))
+        }
+        
         // Pass the points to the SwiftUI view
         DispatchQueue.main.async {
-            self.onDepthPointsUpdate?([centerPoint, leftPoint, rightPoint])
+            self.onDepthPointsUpdate?(cgPoints)
         }
     }
+}
+
+class Point : CustomStringConvertible {
+    var x : Int
+    var y : Int
+    var distanceInMeters : Double
+    var pixelIndex : Int
+    var row : ScreenRow
+    
+    var description: String {
+        if self.row == ScreenRow.BottomRow {
+            return "Bottom Row [\(self.x), \(self.y)]: \(self.distanceInMeters)"
+        } else if self.row == ScreenRow.TopRow {
+            return "Top Row [\(self.x), \(self.y)]: \(self.distanceInMeters)"
+        }
+        return "Middle Row [\(self.x), \(self.y)]: \(self.distanceInMeters)"
+    }
+    
+    required init(x: Int, y: Int, row: ScreenRow) {
+        self.x = x
+        self.y = y
+        self.distanceInMeters = 0.0
+        self.pixelIndex = -1
+        self.row = row
+    }
+    
+    func setX(newX: Int) {
+        self.x = newX
+    }
+    
+    func setY(newY: Int) {
+        self.y = newY
+    }
+
+    func setDistance(distance: Double) {
+        self.distanceInMeters = distance
+    }
+    
+    func setPixelIndex(index: Int) {
+        self.pixelIndex = index
+    }
+}
+
+enum ScreenRow {
+    case TopRow
+    case MiddleRow
+    case BottomRow
 }
 
 extension Double {
