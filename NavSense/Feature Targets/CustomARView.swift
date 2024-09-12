@@ -15,8 +15,10 @@ class CustomARView: ARView, ARSessionDelegate {
     var audioManager: AudioManager
     var lastRange: DistanceRange?
     var lastDistance : Double = 0.0
+    var currentDistance : Double = 0.0
+    private let distanceDelta : Double = 0.1
     private var lastUpdateTime: TimeInterval = 0
-    private let updateInterval: TimeInterval = 0.1
+    private let updateInterval: TimeInterval = 0.3
     
     required init(frame frameRect: CGRect) {
         self.audioManager = AudioManager()
@@ -42,10 +44,16 @@ class CustomARView: ARView, ARSessionDelegate {
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
         let currentTime = frame.timestamp
-        guard abs(currentTime - lastUpdateTime) >= updateInterval else { return }
-        lastUpdateTime = currentTime
-                
-        testDepthData(session, didUpdate: frame)
+        let updateTime = (abs(currentTime - lastUpdateTime) >= updateInterval)
+        let updateDistance = (abs(currentDistance - lastDistance) >= distanceDelta)
+        
+        if (updateTime || updateDistance) {
+            lastUpdateTime = currentTime
+            testDepthData(session, didUpdate: frame)
+        }
+        
+        return
+        
     }
     
     func testDepthData(_ session: ARSession, didUpdate frame: ARFrame) {
@@ -115,7 +123,8 @@ class CustomARView: ARView, ARSessionDelegate {
         // Only update and play sound if the range has changed
         if (abs(minDistance - lastDistance) >= 0.25) || (currentRange != lastRange) {
             lastRange = currentRange
-            lastDistance = minDistance
+            lastDistance = currentDistance
+            currentDistance = minDistance
             if let range = currentRange {
                 audioManager.playSoundForDistanceRange(range)
             } else {
