@@ -23,5 +23,53 @@ This intuitive tool will provide real-time, non-visual guidance, allowing users 
 - `NavSense/Feature Targets/CustomARViewRepresentable.swift`: SwiftUI wrapper for the CustomARView class, integrating AR functionalities with the SwiftUI view hierarchy.
 - `README.md`: Project documentation.
 
+## Installation
+
+1. **Clone the Repository**
+
+Open a terminal and navigate to the directory where you want to store the project. Run the following command to clone the repository:
+
+```bash
+git clone https://github.com/MiNat015/NavSense.git
+```
+
+2. **Open Xcode**
+
+Ensure that you have Xcode installed on your Mac. You can install Xcode via the Mac App Store if you don't already have it.
+
+Open Xcode, and you should see the following screen:
+
+<p align="center">
+<img src="./imgs/xcode_page.png" width=100% height=100% 
+class="center">
+</p>
+
+Click on '**Open Existing Repository**' and navigate to the directory where you cloned the repository.
+
+3. **Navigate to Project Settings**
+
+Open **Project Settings** (highlighted in purple) and go to **Signing and Capabilities**. Select a **Team** using the dropdown select and paste `com.BumpLess.deco` in the **Bundle Identifier** field.
+
+<p align="center">
+<img src="./imgs/xcode_dir.png" width=50% height=50% 
+class="center">
+</p>
+
+4. **Connect a Device**
+
+Connect a supported iOS device (with a LiDAR sensor). Follow the setup prompts on both your computer and iOS device. To check the device's setup status, navigate to **Window > Devices and Simulators**. Your device name should appear in the left-hand navigation column.
+
+5. **Build and Run the Project**
+
+Once your device has been setup, make sure to select a valid target device from the toolbar. Press the Run button or use the shortcut `Cmd + R` to build and run the project.
+
+6. **Grant Necessary Permissions**
+
+Since BumpLess uses ARKit and provides audio feedback, the app will request permission to access the camera and microphone. Make sure to grant these permissions. You may also need to trust the developer to run the application. To do so, go to **Settings** on your iOS device, then **General > VPN and Device Management**, and trust the developer/team you selected earlier.
+
+7. **Test the App**
+
+You can now interact with the app through your iOS device.
+
 ## Results
 Our testing showed that BumpLess accurately detects objects at various distances and provides real-time feedback to users. The app improves mobility by using audio cues that correlate to the user’s distance from obstacles, helping them navigate through their environment safely and confidently.
