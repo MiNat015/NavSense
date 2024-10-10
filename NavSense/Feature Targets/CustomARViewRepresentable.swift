@@ -2,7 +2,7 @@
 //  CustomARViewRepresentable.swift
 //  NavSense - Wrapper struct for CustomARView
 //
-//  Created by Arjun Srikanth on 7/8/2024.
+//  Created by BnY Innovators
 //
 
 import SwiftUI

@@ -2,7 +2,7 @@
 //  Point.swift
 //  NavSense
 //
-//  Created by Arjun Srikanth on 9/10/2024.
+//  Created by BnY Innovators
 //
 
 import Foundation
