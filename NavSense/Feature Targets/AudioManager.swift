@@ -22,7 +22,7 @@ class AudioManager: ObservableObject {
         synthesizer.speak(utterance)
     }
     
-    func playSoundForDistanceRange(_ range: DistanceRange) {
+    func playSoundForDistanceRange(_ range: DistanceRange, objectClass: String) {
         stopAllSounds()  // Stop all sounds before playing the correct one
         
         // Play clip according to range
@@ -30,11 +30,23 @@ class AudioManager: ObservableObject {
         case .lessThan0_1Meters:
             speakText("BOOM!")
         case .lessThan0_5Meters:
-            speakText("Danger, immediately in front")
+            if objectClass != "None" {
+                speakText("Danger," + objectClass + " immediately in front")
+            } else {
+                speakText("Danger, immediately in front")
+            }
         case .between1And1_5Meters:
-            speakText("Danger, one step ahead")
+            if objectClass != "None" {
+                speakText("Danger," + objectClass + " one step ahead")
+            } else {
+                speakText("Danger, one step ahead")
+            }
         case .between1_5And2Meters:
-            speakText("Danger, two steps ahead")
+            if objectClass != "None" {
+                speakText("Danger," + objectClass + " two steps ahead")
+            } else {
+                speakText("Danger, two steps ahead")
+            }
         }
     }
     
