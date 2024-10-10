@@ -17,6 +17,9 @@
 		3BE86EF12C63878F002CFE82 /* NavSenseUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE86EF02C63878F002CFE82 /* NavSenseUITestsLaunchTests.swift */; };
 		3BE86F022C638A7A002CFE82 /* CustomARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE86F012C638A7A002CFE82 /* CustomARView.swift */; };
 		3BE86F042C638C4D002CFE82 /* CustomARViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE86F032C638C4D002CFE82 /* CustomARViewRepresentable.swift */; };
+		3BF3CF562CB8980500FD2CC4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF3CF552CB8980500FD2CC4 /* SettingsView.swift */; };
+		3BF3CF582CB8981300FD2CC4 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF3CF572CB8981300FD2CC4 /* NavigationView.swift */; };
+		3BF3CF5A2CB8981F00FD2CC4 /* SpeechManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF3CF592CB8981F00FD2CC4 /* SpeechManager.swift */; };
 		3BFC3FB42CB64FC800C319EC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFC3FB32CB64FC800C319EC /* Extensions.swift */; };
 		3BFC3FB82CB6502E00C319EC /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFC3FB72CB6502E00C319EC /* Point.swift */; };
 /* End PBXBuildFile section */
@@ -52,6 +55,9 @@
 		3BE86EF02C63878F002CFE82 /* NavSenseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavSenseUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		3BE86F012C638A7A002CFE82 /* CustomARView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomARView.swift; sourceTree = "<group>"; };
 		3BE86F032C638C4D002CFE82 /* CustomARViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomARViewRepresentable.swift; sourceTree = "<group>"; };
+		3BF3CF552CB8980500FD2CC4 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		3BF3CF572CB8981300FD2CC4 /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
+		3BF3CF592CB8981F00FD2CC4 /* SpeechManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechManager.swift; sourceTree = "<group>"; };
 		3BFC3FB32CB64FC800C319EC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		3BFC3FB72CB6502E00C319EC /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -146,6 +152,9 @@
 				3B69E5462C93BAA200B2D0E9 /* AudioManager.swift */,
 				3BFC3FB32CB64FC800C319EC /* Extensions.swift */,
 				3BFC3FB72CB6502E00C319EC /* Point.swift */,
+				3BF3CF552CB8980500FD2CC4 /* SettingsView.swift */,
+				3BF3CF572CB8981300FD2CC4 /* NavigationView.swift */,
+				3BF3CF592CB8981F00FD2CC4 /* SpeechManager.swift */,
 			);
 			path = "Feature Targets";
 			sourceTree = "<group>";
@@ -281,6 +290,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BE86ED62C63878C002CFE82 /* ContentView.swift in Sources */,
+				3BF3CF5A2CB8981F00FD2CC4 /* SpeechManager.swift in Sources */,
+				3BF3CF582CB8981300FD2CC4 /* NavigationView.swift in Sources */,
+				3BF3CF562CB8980500FD2CC4 /* SettingsView.swift in Sources */,
 				3BFC3FB42CB64FC800C319EC /* Extensions.swift in Sources */,
 				3BE86F022C638A7A002CFE82 /* CustomARView.swift in Sources */,
 				3BE86ED42C63878C002CFE82 /* NavSenseApp.swift in Sources */,
@@ -457,6 +469,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = BumpLess;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Needed to show AR View";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -491,6 +505,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = BumpLess;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Needed to show AR View";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
