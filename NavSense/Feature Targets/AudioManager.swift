@@ -47,6 +47,8 @@ class AudioManager: ObservableObject {
             } else {
                 speakText("Obstruction, two steps ahead")
             }
+        case .clear:
+            speakText("The path is clear")
         }
     }
     
@@ -63,4 +65,5 @@ enum DistanceRange {
     case lessThan0_5Meters
     case between1And1_5Meters
     case between1_5And2Meters
+    case clear
 }

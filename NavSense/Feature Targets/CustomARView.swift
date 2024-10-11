@@ -148,6 +148,8 @@ class CustomARView: ARView, ARSessionDelegate {
                     currentRange = .between1And1_5Meters
                 } else if minDistance < 2.0 {
                     currentRange = .between1_5And2Meters
+                } else {
+                    currentRange = .clear
                 }
                 
                 // -- AUDIO FEEDBACK --
