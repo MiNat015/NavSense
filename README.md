@@ -40,7 +40,7 @@ Ensure that you have Xcode installed on your Mac. You can install Xcode via the 
 Open Xcode, and you should see the following screen:
 
 <p align="center">
-<img src="./imgs/xcode_page.png" width=100% height=100% 
+<img src="./imgs/xcode_page.png" width=100% height=100%
 class="center">
 </p>
 
@@ -51,7 +51,7 @@ Click on '**Open Existing Repository**' and navigate to the directory where you 
 Open **Project Settings** (highlighted in purple) and go to **Signing and Capabilities**. Select a **Team** using the dropdown select and paste `com.BumpLess.deco` in the **Bundle Identifier** field.
 
 <p align="center">
-<img src="./imgs/xcode_dir.png" width=50% height=50% 
+<img src="./imgs/xcode_dir.png" width=50% height=50%
 class="center">
 </p>
 
@@ -70,6 +70,32 @@ Since BumpLess uses ARKit and provides audio feedback, the app will request perm
 7. **Test the App**
 
 You can now interact with the app through your iOS device.
+
+## Using the Application
+Once you've successfully installed and launched BumpLess on your iOS device, follow these steps to use the application:
+
+1. **Hold the Device**: Hold your iOS device in portrait mode, with the camera facing forward as you would when taking a photo.
+
+2. **Scan the Environment**: Slowly pan the device around your environment. The app will use the LiDAR sensor to scan and create a mesh of your surroundings.
+
+<p align="center">
+<img src="./imgs/app_home.png" width=50% height=50%
+class="center">
+</p>
+
+3. **Listen for Audio Feedback**: As you move the device, you'll hear different audio cues:
+   - An audio message indicating an object is immediately ahead (within 0.5 meters).
+   - An audio message indicating an object is one step ahead (within 1.5 meters).
+   - An audio message indicating an object is two steps ahead (within 2.0 meters).
+   - An audio message indicating the path is clear if there is no object within 2.0 meters.
+
+4. **Feel Haptic Feedback**: In addition to audio cues, you'll feel vibrations that correspond to the proximity of detected objects. Stronger vibrations indicate closer objects.
+
+5. **Navigate Safely**: Use the audio and haptic feedback to guide your movements. Move slowly and adjust your direction based on the feedback to avoid obstacles.
+
+6. **Explore Different Environments**: Practice using the app in various settings, starting with familiar spaces before moving to new environments.
+
+Remember, BumpLess is designed to assist with navigation, but it should not replace other mobility aids or techniques you may use. Always prioritize your safety and use the app in conjunction with your existing navigation skills and tools.
 
 ## Results
 Our testing showed that BumpLess accurately detects objects at various distances and provides real-time feedback to users. The app improves mobility by using audio cues that correlate to the user’s distance from obstacles, helping them navigate through their environment safely and confidently.
