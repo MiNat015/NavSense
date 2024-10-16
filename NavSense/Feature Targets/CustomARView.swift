@@ -17,9 +17,9 @@ class CustomARView: ARView, ARSessionDelegate {
     var lastRange: DistanceRange?
     var lastDistance : Double = 0.0
     var currentDistance : Double = 0.0
-    private let distanceDelta : Double = 0.5
-    private var lastUpdateTime: TimeInterval = 0
-    private let updateInterval: TimeInterval = 0.3
+    let distanceDelta : Double = 0.5
+    var lastUpdateTime: TimeInterval = 0
+    let updateInterval: TimeInterval = 0.3
     
     required init(frame frameRect: CGRect) {
         self.audioManager = AudioManager()
