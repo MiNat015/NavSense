@@ -23,6 +23,12 @@ This intuitive tool will provide real-time, non-visual guidance, allowing users 
 - `NavSense/Feature Targets/CustomARViewRepresentable.swift`: SwiftUI wrapper for the CustomARView class, integrating AR functionalities with the SwiftUI view hierarchy.
 - `README.md`: Project documentation.
 
+## Requirements
+- **Xcode**: Version 16.0 or later
+- **Swift**: Version 6.0 or later
+- **iOS**: Version 17.0 or later
+- **Device**: iPhone or iPad with LiDAR sensor (iPhone 12 Pro and later, iPad Pro 2020 and later)
+
 ## Installation
 
 1. **Clone the Repository**
