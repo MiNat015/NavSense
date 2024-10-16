@@ -79,7 +79,7 @@ Once you've successfully installed and launched BumpLess on your iOS device, fol
 2. **Scan the Environment**: Slowly pan the device around your environment. The app will use the LiDAR sensor to scan and create a mesh of your surroundings.
 
 <p align="center">
-<img src="./imgs/app_home.png" width=50% height=50%
+<img src="./imgs/app_home.png" width=40% height=40%
 class="center">
 </p>
 
