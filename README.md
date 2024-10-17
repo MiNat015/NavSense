@@ -29,6 +29,17 @@ This intuitive tool will provide real-time, non-visual guidance, allowing users 
 - **iOS**: Version 17.0 or later
 - **Device**: iPhone or iPad with LiDAR sensor (iPhone 12 Pro and later, iPad Pro 2020 and later)
 
+## Frameworks
+
+The following frameworks are used in this project and are included in the iOS SDK. No additional installation is required:
+
+- **ARKit**: For Augmented Reality features and LiDAR sensor integration
+- **RealityKit**: For 3D rendering and scene understanding
+- **SwiftUI**: For building the user interface
+- **Combine**: For reactive programming patterns
+- **AVFoundation**: For audio playback and management
+- **CoreHaptics**: For haptic feedback generation
+
 ## Installation
 
 1. **Clone the Repository**
@@ -103,5 +114,29 @@ class="center">
 
 Remember, BumpLess is designed to assist with navigation, but it should not replace other mobility aids or techniques you may use. Always prioritize your safety and use the app in conjunction with your existing navigation skills and tools.
 
+## Known Bugs
+
+While we continue to improve BumpLess, there are some known issues that users should be aware of:
+
+1. **Navigation Feature Not Implemented**:
+   - The Navigation feature shown in the UI is currently non-functional.
+   - The interface elements for navigation do not perform any actions at this time.
+
+2. **UI Overlap Issue**:
+   - When both the settings and navigation UI are opened simultaneously, they may overlap, causing visual confusion.
+   - This can potentially impact the user experience and readability of the interface.
+
+3. **Audio Feedback Interruption**:
+   - In some instances, the audio feedback may be cut off before completing.
+   - This could potentially lead to incomplete or unclear directional cues.
+
+We are actively working on resolving these issues and appreciate your patience. If you encounter any additional bugs or have suggestions for improvements, please feel free to report them through our issue tracker on GitHub.
+
 ## Results
+
 Our testing showed that BumpLess accurately detects objects at various distances and provides real-time feedback to users. The app improves mobility by using audio cues that correlate to the user’s distance from obstacles, helping them navigate through their environment safely and confidently.
+
+<video width="320" height="240" controls>
+  <source src="./imgs/Bumpless_Vid_Backup.MP4" type="video/mp4">
+   Your browser does not support the video tag.
+</video>
