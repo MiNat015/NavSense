@@ -135,8 +135,3 @@ We are actively working on resolving these issues and appreciate your patience. 
 ## Results
 
 Our testing showed that BumpLess accurately detects objects at various distances and provides real-time feedback to users. The app improves mobility by using audio cues that correlate to the user’s distance from obstacles, helping them navigate through their environment safely and confidently.
-
-<video width="320" height="240" controls>
-  <source src="./imgs/Bumpless_Vid_Backup.MP4" type="video/mp4">
-   Your browser does not support the video tag.
-</video>
