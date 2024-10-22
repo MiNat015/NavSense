@@ -14,6 +14,7 @@ class CustomARView: ARView, ARSessionDelegate {
     var onDepthPointsUpdate: (([CGPoint?]) -> Void)?
     var modelsForClassification: [ARMeshClassification: ModelEntity] = [:]
     var audioManager: AudioManager
+    var hapticManager: HapticManager
     var lastRange: DistanceRange?
     var lastDistance : Double = 0.0
     var currentDistance : Double = 0.0
@@ -23,6 +24,7 @@ class CustomARView: ARView, ARSessionDelegate {
     
     required init(frame frameRect: CGRect) {
         self.audioManager = AudioManager()
+        self.hapticManager = HapticManager()
         super.init(frame: frameRect)
         self.session.delegate = self
         print("CustomARView initialized")
@@ -30,6 +32,7 @@ class CustomARView: ARView, ARSessionDelegate {
     
     required init(frame frameRect: CGRect, audioManager: AudioManager) {
         self.audioManager = audioManager
+        self.hapticManager = HapticManager()
         super.init(frame: frameRect)
         self.session.delegate = self
         print("CustomARView initialized")
@@ -142,10 +145,13 @@ class CustomARView: ARView, ARSessionDelegate {
             
                 if minDistance < 0.1 {
                     currentRange = .lessThan0_1Meters
+                    self.hapticManager.triggerHeavyImpact()
                 } else if minDistance < 0.5 {
                     currentRange = .lessThan0_5Meters
+                    self.hapticManager.triggerHeavyImpact()
                 } else if minDistance < 1.5 {
                     currentRange = .between1And1_5Meters
+                    self.hapticManager.triggerLightImpact()
                 } else if minDistance < 2.0 {
                     currentRange = .between1_5And2Meters
                 } else {

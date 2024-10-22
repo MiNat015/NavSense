@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B4F0D492CC78FB000C8BB2B /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4F0D482CC78FB000C8BB2B /* HapticManager.swift */; };
 		3B69E5472C93BAA200B2D0E9 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B69E5462C93BAA200B2D0E9 /* AudioManager.swift */; };
 		3BE86ED42C63878C002CFE82 /* NavSenseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE86ED32C63878C002CFE82 /* NavSenseApp.swift */; };
 		3BE86ED62C63878C002CFE82 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE86ED52C63878C002CFE82 /* ContentView.swift */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B4F0D482CC78FB000C8BB2B /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		3B69E5462C93BAA200B2D0E9 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		3BE86ED02C63878C002CFE82 /* NavSense.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NavSense.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BE86ED32C63878C002CFE82 /* NavSenseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavSenseApp.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 				3BF3CF552CB8980500FD2CC4 /* SettingsView.swift */,
 				3BF3CF572CB8981300FD2CC4 /* NavigationView.swift */,
 				3BF3CF592CB8981F00FD2CC4 /* SpeechManager.swift */,
+				3B4F0D482CC78FB000C8BB2B /* HapticManager.swift */,
 			);
 			path = "Feature Targets";
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 				3BE86F022C638A7A002CFE82 /* CustomARView.swift in Sources */,
 				3BE86ED42C63878C002CFE82 /* NavSenseApp.swift in Sources */,
 				3BFC3FB82CB6502E00C319EC /* Point.swift in Sources */,
+				3B4F0D492CC78FB000C8BB2B /* HapticManager.swift in Sources */,
 				3B69E5472C93BAA200B2D0E9 /* AudioManager.swift in Sources */,
 				3BE86F042C638C4D002CFE82 /* CustomARViewRepresentable.swift in Sources */,
 			);
